@@ -11,7 +11,7 @@ $(function(){
     }
 
     var removeItem = function(state, item){
-        state.items.splice(item);
+        state.items.splice(state.items.indexOf(item), 1);
     }
 
     // Render functions
@@ -22,9 +22,12 @@ $(function(){
             return '<li>' + '<span class="shopping-item">' + item + '</span>' + controls + '</li>';
         });
         element.html(itemsHTML);
+        console.log(state);
     }
 
     // Event Listeners
+
+    // Form Submit
     $('#js-shopping-list-form').submit(function(event){
         event.preventDefault();
         addItem(state, $('#shopping-list-entry').val());
@@ -32,11 +35,15 @@ $(function(){
         $('#shopping-list-entry').val('');
     });
 
+    // Checked button click
     $(document).on('click', '.shopping-item-toggle', function(event){
+        event.preventDefault();
         $(this).parent('.shopping-item-controls').parent('li').find('.shopping-item').toggleClass('shopping-item__checked');
     });
 
+    // Delete Button click
     $(document).on('click', '.shopping-item-delete', function(event){
+        event.preventDefault();
         removeItem(state, $(this).parent('.shopping-item-controls').parent('li').find('.shopping-item').text());
         renderList(state, $('.shopping-list'));
 
